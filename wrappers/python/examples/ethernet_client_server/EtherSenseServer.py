@@ -64,7 +64,7 @@ class EtherSenseServer(asyncore.dispatcher):
 	# reduce the resolution of the depth image using post processing
         self.decimate_filter = rs.decimation_filter()
         self.decimate_filter.set_option(rs.option.filter_magnitude, 2)
-        self.frame_data = ''
+        self.frame_data = b""
         self.connect((address[0], 1024))
         self.packet_id = 0        
 
@@ -84,7 +84,7 @@ class EtherSenseServer(asyncore.dispatcher):
 	    # include the current timestamp for the frame
             ts = struct.pack('<d', timestamp)
 	    # for the message for transmission
-            self.frame_data = ''.join([length, ts, data])
+            self.frame_data = self.frame_data.join([length, ts, data])
 
     def handle_write(self):
 	# first time the handle_write is called
